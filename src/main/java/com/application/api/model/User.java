@@ -1,7 +1,6 @@
 package com.application.api.model;
 
 import com.application.api.model.Enum.Role;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.util.*;
@@ -9,11 +8,11 @@ import java.util.*;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID userId;
 
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String password;
@@ -32,20 +31,20 @@ public class User {
 
 
 
-    public User(UUID userId, String userName, String password, String email, String name) {
-        this.userId = userId;
-        this.userName = userName;
+    public User(String username, String password, String email, String name) {
+        this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
     }
 
-    public UUID getUserId() {
-        return userId;
+
+    public String getUsername() {
+        return username;
     }
 
-    public String getUserName() {
-        return userName;
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getPassword() {
@@ -60,8 +59,8 @@ public class User {
         return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {

@@ -2,18 +2,15 @@ package com.application.api.model;
 
 
 
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Column(nullable = false, unique = true)
     private String title;

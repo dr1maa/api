@@ -7,7 +7,7 @@ import java.util.UUID;
 @Entity
 public class FavoritesMovie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @ManyToOne
     @JoinColumn(name = "user_id")
