@@ -4,24 +4,26 @@ import com.application.api.model.Enum.Role;
 import com.application.api.model.User;
 import com.application.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.customFindById(id);
     }
 
     @Override
@@ -35,14 +37,14 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(Role.USER);
         user.setRole(roles);
-        String password = "1111";
-        user.setPassword(password);
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
 
     @Override
     public User getUserInfo(User user) {
-        User thisUser = userRepository.findById(user.getUserId());
+        User thisUser = userRepository.customFindById(user.getUserId());
         if (user == null) {
             return null;
         }
@@ -54,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user, User updatedUser) {
-        User thisUser = userRepository.findById(user.getUserId());
+        User thisUser = userRepository.customFindById(user.getUserId());
         thisUser.setUsername(updatedUser.getUsername());
         thisUser.setName(updatedUser.getName());
         return userRepository.save(thisUser);
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
-        User thisUser = userRepository.findById(user.getUserId());
+        User thisUser = userRepository.customFindById(user.getUserId());
         if (thisUser == null) {
             throw new RuntimeException("Пользователь не существует");
         }
