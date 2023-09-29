@@ -10,8 +10,8 @@ import java.util.UUID;
 @Entity
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false, unique = true)
     private String title;
     @Column(nullable = false, unique = true)
@@ -32,10 +32,6 @@ public class Movie {
 
     public void setPosterPath(String poster_path) {
         this.posterPath = poster_path;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public String getTitle() {

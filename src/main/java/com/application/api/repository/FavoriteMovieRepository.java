@@ -10,10 +10,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface FavoriteMovieRepository extends JpaRepository<FavoritesMovie, UUID> {
+public interface FavoriteMovieRepository extends JpaRepository<FavoritesMovie, Long> {
     List<FavoritesMovie> findAllMoviesByUser(User user);
 
     @Query("SELECT fm " +

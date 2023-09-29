@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -19,8 +20,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(User userId) {
-        return userRepository.findByUserId(userId);
+    public User getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserInfo(User user) {
-        User thisUser = userRepository.findByUserId(user);
+        User thisUser = userRepository.findById(user.getUserId());
         if (user == null) {
             return null;
         }
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user, User updatedUser) {
-        User thisUser = userRepository.findByUserId(user);
+        User thisUser = userRepository.findById(user.getUserId());
         thisUser.setUsername(updatedUser.getUsername());
         thisUser.setName(updatedUser.getName());
         return userRepository.save(thisUser);
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
-        User thisUser = userRepository.findByUserId(user);
+        User thisUser = userRepository.findById(user.getUserId());
         if (thisUser == null) {
             throw new RuntimeException("Пользователь не существует");
         }

@@ -3,9 +3,11 @@ package com.application.api.service;
 
 import com.application.api.model.User;
 
+import java.util.Optional;
+
 public interface UserService {
 
-    User getUserById(User userId);
+    User getUserById(Long id);
 
     User register(User user);
 

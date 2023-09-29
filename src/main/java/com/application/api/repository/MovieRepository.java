@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, UUID> {
-    Movie findMovieById(Movie movieId);
+public interface MovieRepository extends JpaRepository<Movie, Long> {
+    Movie findMovieById(Long movieId);
     Movie findMovieByTitle(String title);
 }

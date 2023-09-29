@@ -7,8 +7,8 @@ import java.util.UUID;
 @Entity
 public class FavoritesMovie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -21,11 +21,11 @@ public class FavoritesMovie {
         this.movie = movie;
     }
 
-    public UUID getId() {
+    public Long getFavoriteId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setFavoriteId(Long id) {
         this.id = id;
     }
 

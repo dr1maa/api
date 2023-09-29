@@ -9,7 +9,7 @@ import java.util.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID userId;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -28,9 +28,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> role = new HashSet<>();
 
-
-
-
     public User(String username, String password, String email, String name) {
         this.username = username;
         this.password = password;
@@ -43,8 +40,8 @@ public class User {
         return username;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public Long getUserId() {
+        return id;
     }
 
     public String getPassword() {

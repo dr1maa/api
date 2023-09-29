@@ -22,6 +22,6 @@ public interface MovieService {
 
     List<FavoritesMovie> FavoritesMoviesInfo(Authentication authentication);
 
-    Movie findMovieById(Movie moveId);
+    Movie findMovieById(Long moveId);
     Movie findMovieByTitle(String title);
 }
