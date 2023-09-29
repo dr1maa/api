@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user, User updatedUser) {
-        User thisUser = userRepository.customFindById(user.getUserId());
+    public User updateUser(String username, User updatedUser) {
+        User thisUser = userRepository.findByUsername(username);
         thisUser.setUsername(updatedUser.getUsername());
         thisUser.setName(updatedUser.getName());
         return userRepository.save(thisUser);
