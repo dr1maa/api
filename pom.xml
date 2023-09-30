@@ -70,11 +70,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.greenyouse</groupId>
-			<artifactId>ligable</artifactId>
-			<version>0.1.0</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -84,11 +79,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>clojars</id>
-			<name>Clojars</name>
-			<url>https://repo.clojars.org/</url>
-		</repository>
-	</repositories>
 </project>

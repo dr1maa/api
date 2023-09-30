@@ -9,6 +9,7 @@ import com.application.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -35,7 +36,7 @@ public class MovieController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int perPage
     ) {
-        Pagable pagable = PageRequest.of(1, 5);
+        Pageable pagable = PageRequest.of(1, 5);
         Page<Movie> saveMoviePage = (Page<Movie>) movieService.getAllMovies(pagable);
         return ResponseEntity.ok(saveMoviePage.getContent());
     }
@@ -80,7 +81,7 @@ public class MovieController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        Pagable pagable = PageRequest.of(page, perPage);
+        Pageable pagable = PageRequest.of(page, perPage);
         List<Movie> notInFavoritesMovie = movieService.notInFavoritesMoviesInfo(authentication, pagable);
         if (notInFavoritesMovie == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

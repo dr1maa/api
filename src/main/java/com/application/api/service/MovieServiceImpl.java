@@ -7,6 +7,7 @@ import com.application.api.repository.FavoriteMovieRepository;
 import com.application.api.repository.MovieRepository;
 import com.application.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAllMovies(Pagable pageable) {
+    public List<Movie> getAllMovies(Pageable pageable) {
         return movieRepository.findAll();
     }
     @Override
@@ -59,7 +60,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> notInFavoritesMoviesInfo(Authentication authentication) {
+    public List<Movie> notInFavoritesMoviesInfo(Authentication authentication,Pageable pagable) {
         String username = authentication.getName();
         User thisUser = userRepository.findByUsername(username);
         List<FavoritesMovie> favoritesMovieList = favoriteMovieRepository.findAllMoviesByUser(thisUser);
