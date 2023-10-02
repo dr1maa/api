@@ -45,12 +45,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserInfo(User user) {
         User thisUser = userRepository.customFindById(user.getUserId());
-        if (user == null) {
+        if (thisUser == null) {
             return null;
         }
-        String username = user.getName();
-        String email = user.getEmail();
-        Set<Role> roles = user.getRole();
+//        String username = user.getName();
+//        String email = user.getEmail();
+//        Set<Role> roles = user.getRole();
         return thisUser;
     }
 

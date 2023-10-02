@@ -17,6 +17,7 @@ import java.util.List;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final UserService userService;
+
     @Autowired
     public CustomAuthenticationProvider(UserService userService) {
         this.userService = userService;
@@ -27,13 +28,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         User user = userService.getUserByUsername(username);
-        if (user !=null || password.equals(user.getPassword())){
+        if (user == null || !password.equals(user.getPassword())) {
             throw new AuthenticationException("Authentication failed") {
             };
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("USER"));
-        return new UsernamePasswordAuthenticationToken(username,password,authorities);
+        return new UsernamePasswordAuthenticationToken(username, password, authorities);
     }
 
     @Override
