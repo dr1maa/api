@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(customUserDetailService)
                 .authorizeRequests()
                 .antMatchers("/api/users/register").permitAll()
-                .antMatchers("/api/movies/**").authenticated()
+                .antMatchers("/api/users/**").authenticated()
                 .and()
                 .httpBasic();
         http.csrf().disable();

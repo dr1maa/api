@@ -24,18 +24,19 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<User> getUserInfo(Authentication authentication) {
         String username = authentication.getName();
-        User user = userService.getUserByUsername(username);
-        return ResponseEntity.ok(user);
+        User currentUser = userService.getUserByUsername(username);
+        return ResponseEntity.ok(currentUser);
     }
 
     @PutMapping("/me")
     public ResponseEntity<User> updateCurrentUser(@RequestBody User updatedUser, Authentication authentication) {
         String username = authentication.getName();
-        User user = userService.updateUser( username, updatedUser);
+        User user = userService.updateUser(username, updatedUser);
         return ResponseEntity.ok(user);
     }
+
     @DeleteMapping("/me")
-    public ResponseEntity<User> deleteCurrentUser(Authentication authentication){
+    public ResponseEntity<User> deleteCurrentUser(Authentication authentication) {
         String username = authentication.getName();
         User user = userService.getUserByUsername(username);
         userService.deleteUser(user);

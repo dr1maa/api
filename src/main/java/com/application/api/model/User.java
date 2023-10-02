@@ -34,6 +34,7 @@ public class User {
         this.email = email;
         this.name = name;
     }
+    public User(){}
 
 
     public String getUsername() {
@@ -79,5 +80,7 @@ public class User {
     public void setRole(Set<Role> role) {
         this.role = role;
     }
+
+
 
 }
