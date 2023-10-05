@@ -3,7 +3,9 @@ package com.application.api.model;
 import com.application.api.model.Enum.Role;
 
 import javax.persistence.*;
-import java.util.*;
+import javax.validation.constraints.Email;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -12,12 +14,15 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @Username
     private String username;
 
     @Column(nullable = false, unique = true)
+    @ValidPassword
     private String password;
 
     @Column(nullable = false, unique = true)
+    @Email(message = "Некорректный формат email")
     private String email;
 
     @Column

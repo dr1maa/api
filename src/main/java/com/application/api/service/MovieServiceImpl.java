@@ -32,9 +32,9 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie saveMovieToDb(Movie movie) {
 
-//        if (movie.getTitle() == null || movie.getPosterPath() == null) {
-//            return new RuntimeException("не айден title или poster_path");
-//        }
+        if (movie.getTitle() == null || movie.getPosterPath() == null) {
+            return null;
+        }
         return movieRepository.save(movie);
     }
 

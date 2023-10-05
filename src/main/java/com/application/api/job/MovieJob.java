@@ -22,7 +22,7 @@ public class MovieJob {
     private final MovieService movieService;
     private static final String TITLE = "title";
     private static final String POSTER_PATH = "poster_path";
-    private static final String RESULT = "result";
+    private static final String RESULT = "results";
 
     @Autowired
     public MovieJob(ObjectMapper objectMapper, DiscoverClient discoverClient, MovieService movieService) {
@@ -31,7 +31,7 @@ public class MovieJob {
         this.movieService = movieService;
     }
 
-    @Scheduled(fixedRate = 3)
+    @Scheduled(fixedRate = 3000 * 60 * 60)
     void fetchAndSaveMoviesToDb() throws IOException {
         for (int page = 1; page <= 5; page++) {
             fetchAndSaveMoviesFromPage(page);
