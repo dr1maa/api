@@ -34,11 +34,12 @@ public class MovieController {
     @GetMapping("/savedMovies")
     public ResponseEntity<List<Movie>> getSavedMovies(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int perPage
+            @RequestParam(defaultValue = "5") int size
     ) {
-        Pageable pagable = PageRequest.of(1, 5);
-        Page<Movie> saveMoviePage = (Page<Movie>) movieService.getAllMovies(pagable);
-        return ResponseEntity.ok(saveMoviePage.getContent());
+        Pageable pageable = PageRequest.of(1, size);
+        Page<Movie> savedMoviesPage = movieService.getAllMovies(pageable);
+        List<Movie> movies = savedMoviesPage.getContent();
+        return ResponseEntity.ok(movies);
     }
 
     @PostMapping("/addToFavorites")

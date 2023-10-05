@@ -31,7 +31,7 @@ public class MovieJob {
         this.movieService = movieService;
     }
 
-    @Scheduled(fixedRate = 3 * 60 * 60 * 1000)
+    @Scheduled(fixedRate = 3)
     void fetchAndSaveMoviesToDb() throws IOException {
         for (int page = 1; page <= 5; page++) {
             fetchAndSaveMoviesFromPage(page);
@@ -49,8 +49,6 @@ public class MovieJob {
     }
 
     private void saveMovieFromResponse(String responseBody) {
-        System.out.println("JSON Response:");
-        System.out.println(responseBody);
         try {
             JsonNode jsonNode = objectMapper.readTree(responseBody);
             JsonNode result = jsonNode.get(RESULT);

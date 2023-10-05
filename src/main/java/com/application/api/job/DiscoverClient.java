@@ -21,32 +21,12 @@ public class DiscoverClient {
         this.client = new OkHttpClient();
     }
 
-    public Response fetchMoviesFromAllPages() {
-        for (int page = 1; page <= 5; page++) {
-            try {
-
-                Request request = new Request.Builder()
-                        .url(BASE_URL)
-                        .get()
-                        .addHeader(ACCEPT, APPLICATION_JSON)
-                        .addHeader(AUTHORIZATION, API_KEY)
-                        .build();
-
-                return client.newCall(request).execute();
-            } catch (
-                    IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
     public Response fetchMoviesFromPage(int page) {
         try {
             String url = BASE_URL + "?api_key=" + API_KEY + "&page=" + page;
 
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(BASE_URL)
                     .get()
                     .addHeader(ACCEPT, APPLICATION_JSON)
                     .addHeader(AUTHORIZATION, API_KEY)

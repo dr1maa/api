@@ -7,6 +7,7 @@ import com.application.api.repository.FavoriteMovieRepository;
 import com.application.api.repository.MovieRepository;
 import com.application.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -31,15 +32,15 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie saveMovieToDb(Movie movie) {
 
-        if (movie.getTitle() == null || movie.getPosterPath() == null) {
-            return null;
-        }
+//        if (movie.getTitle() == null || movie.getPosterPath() == null) {
+//            return new RuntimeException("не айден title или poster_path");
+//        }
         return movieRepository.save(movie);
     }
 
     @Override
-    public List<Movie> getAllMovies(Pageable pageable) {
-        return movieRepository.findAll();
+    public Page<Movie> getAllMovies(Pageable pageable) {
+        return movieRepository.findAll(pageable);
     }
     @Override
     public void addMovieToFavorites(Authentication authentication, Movie movie) {
