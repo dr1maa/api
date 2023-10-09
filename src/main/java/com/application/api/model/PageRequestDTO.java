@@ -2,7 +2,7 @@ package com.application.api.model;
 
 public class PageRequestDTO {
     private Integer page = 1;
-    private Integer size = 5;
+    private Integer size = 15;
 
     public Integer getPage() {
         return page;

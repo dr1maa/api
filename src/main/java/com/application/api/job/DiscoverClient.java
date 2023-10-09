@@ -7,6 +7,8 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DiscoverClient {
@@ -21,21 +23,24 @@ public class DiscoverClient {
         this.client = new OkHttpClient();
     }
 
-    public Response fetchMoviesFromPage(int page) {
-        try {
-            String url = BASE_URL + "?api_key=" + API_KEY + "&page=" + page;
+    public List<Response> fetchMoviesFromPage(int fromPage, int toPage) {
+        List<Response> responses = new ArrayList<>();
+        for (int page = fromPage; page <= toPage; page++) {
+            try {
+                String url = BASE_URL + "?api_key=" + API_KEY + "&page=" + page;
+                Request request = new Request.Builder()
+                        .url(url)
+                        .get()
+                        .addHeader(ACCEPT, APPLICATION_JSON)
+                        .addHeader(AUTHORIZATION, API_KEY)
+                        .build();
 
-            Request request = new Request.Builder()
-                    .url(BASE_URL)
-                    .get()
-                    .addHeader(ACCEPT, APPLICATION_JSON)
-                    .addHeader(AUTHORIZATION, API_KEY)
-                    .build();
-
-            return client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
+                Response response = client.newCall(request).execute();
+                responses.add(response);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return null;
+        return responses;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -33,18 +34,18 @@ public class MovieJob {
 
     @Scheduled(fixedRate = 3000 * 60 * 60)
     void fetchAndSaveMoviesToDb() throws IOException {
-        for (int page = 1; page <= 5; page++) {
-            fetchAndSaveMoviesFromPage(page);
-        }
+        fetchAndSaveMoviesFromPage(1, 5);
     }
 
-    private void fetchAndSaveMoviesFromPage(int page) throws IOException {
-        Response response = discoverClient.fetchMoviesFromPage(page);
-        if (response.isSuccessful()) {
-            String responseBody = response.body().string();
-            saveMovieFromResponse(responseBody);
-        } else {
-            System.err.println("Ошибка выполнения запроса" + response.code());
+    private void fetchAndSaveMoviesFromPage(int startPage, int endPage) throws IOException {
+        List<Response> responses = discoverClient.fetchMoviesFromPage(startPage, endPage);
+        for (Response response : responses) {
+            if (response.isSuccessful()) {
+                String responseBody = response.body().string();
+                saveMovieFromResponse(responseBody);
+            } else {
+                System.err.println("Ошибка выполнения запроса" + response.code());
+            }
         }
     }
 
@@ -56,16 +57,20 @@ public class MovieJob {
                 for (JsonNode movieNode : result) {
                     String title = movieNode.get(TITLE).asText();
                     String posterPath = movieNode.get(POSTER_PATH).asText();
-                    Optional<Movie> existingMovieOptional = Optional.ofNullable(movieService.findMovieByTitle(title));
-                    if (existingMovieOptional.isPresent()) {
-                        Movie existMovie = existingMovieOptional.get();
-                        existMovie.setPosterPath(posterPath);
-                        movieService.saveMovieToDb(existMovie);
+                    if (title != null && posterPath != null) {
+                        Optional<Movie> existingMovieOptional = Optional.ofNullable(movieService.findMovieByTitle(title));
+                        if (existingMovieOptional.isPresent()) {
+                            Movie existMovie = existingMovieOptional.get();
+                            existMovie.setPosterPath(posterPath);
+                            movieService.saveMovieToDb(existMovie);
+                        } else {
+                            Movie newMovie = new Movie();
+                            newMovie.setTitle(title);
+                            newMovie.setPosterPath(posterPath);
+                            movieService.saveMovieToDb(newMovie);
+                        }
                     } else {
-                        Movie newMovie = new Movie();
-                        newMovie.setTitle(title);
-                        newMovie.setPosterPath(posterPath);
-                        movieService.saveMovieToDb(newMovie);
+                        System.out.println("Получены нулевые значения для title или posterPath");
                     }
                 }
             }
