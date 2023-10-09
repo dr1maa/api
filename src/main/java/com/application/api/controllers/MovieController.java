@@ -3,6 +3,7 @@ package com.application.api.controllers;
 
 import com.application.api.model.FavoritesMovie;
 import com.application.api.model.Movie;
+import com.application.api.model.PageRequestDTO;
 import com.application.api.model.User;
 import com.application.api.service.MovieService;
 import com.application.api.service.UserService;
@@ -33,10 +34,17 @@ public class MovieController {
 
     @GetMapping("/savedMovies")
     public ResponseEntity<List<Movie>> getSavedMovies(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestBody PageRequestDTO pageRequestDTO
     ) {
-        Pageable pageable = PageRequest.of(1, size);
+        Integer page = pageRequestDTO.getPage();
+        Integer size = pageRequestDTO.getSize();
+        if (page == null) {
+            page = 1;
+        }
+        if (size == null) {
+            size = 15;
+        }
+        Pageable pageable = PageRequest.of(page, size);
         Page<Movie> savedMoviesPage = movieService.getAllMovies(pageable);
         List<Movie> movies = savedMoviesPage.getContent();
         return ResponseEntity.ok(movies);
@@ -82,8 +90,8 @@ public class MovieController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        Pageable pagable = PageRequest.of(page, perPage);
-        List<Movie> notInFavoritesMovie = movieService.notInFavoritesMoviesInfo(authentication, pagable);
+        Pageable pageable = PageRequest.of(page, perPage);
+        List<Movie> notInFavoritesMovie = movieService.notInFavoritesMoviesInfo(authentication, pageable);
         if (notInFavoritesMovie == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

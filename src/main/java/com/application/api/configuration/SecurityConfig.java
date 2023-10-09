@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final CustomUserDetailsService customUserDetailService;
 
     @Autowired
@@ -44,5 +43,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic();
         http.csrf().disable();
     }
-
 }
